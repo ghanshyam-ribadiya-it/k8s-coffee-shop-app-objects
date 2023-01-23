@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: coffee-shop-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: coffee-shop-service
+  template:
+    metadata:
+      labels:
+        app: coffee-shop-service
+    spec:
+      containers:
+      - name: coffee-shop-service
+        image: chirag407/app-coffee-shop-service:0.0.1
+        ports:
+          - containerPort: 9002
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: coffee-shop-service-svc
+spec:
+  selector:
+    app: coffee-shop-service
+  type: ClusterIP  
+  ports:
+  - port: 80
+    targetPort: 9002
